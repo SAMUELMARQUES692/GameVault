@@ -1,0 +1,9 @@
+CREATE TABLE games (
+id serial PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
+description VARCHAR(250),
+genre VARCHAR(50) NOT NULL,
+price DECIMAL(10, 2) NOT NULL,
+rating NUMERIC NOT NULL
+
+);
