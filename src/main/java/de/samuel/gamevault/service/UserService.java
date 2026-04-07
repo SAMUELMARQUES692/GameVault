@@ -6,6 +6,7 @@ import de.samuel.gamevault.mapper.UserMapper;
 import de.samuel.gamevault.model.UserModel;
 import de.samuel.gamevault.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,9 +18,15 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserDTO saveUsers(UserDTO userDTO) {
-        return userMapper.map(userRepository.save(userMapper.map(userDTO)));
+        String encodedPassword = passwordEncoder.encode(userDTO.password());
+
+        UserModel user = userMapper.map(userDTO);
+        user.setPassword(encodedPassword);
+
+        return userMapper.map(userRepository.save(user));
     }
 
     public List<UserDTO> getAll() {
