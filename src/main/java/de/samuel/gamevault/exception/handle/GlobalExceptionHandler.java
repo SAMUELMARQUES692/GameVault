@@ -3,6 +3,7 @@ package de.samuel.gamevault.exception.handle;
 import de.samuel.gamevault.exception.GameNotFoundException;
 import de.samuel.gamevault.exception.LibraryNotFoundException;
 import de.samuel.gamevault.exception.UserNotFoundException;
+import de.samuel.gamevault.exception.UsernameOrPasswordInvalidException;
 import de.samuel.gamevault.records.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,16 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(UsernameOrPasswordInvalidException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(UsernameOrPasswordInvalidException exception) {
+        ErrorResponse error = new ErrorResponse(
+                "USER_OR_PASSWORD_INVALID",
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
     // Fallback para erros inesperados
