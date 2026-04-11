@@ -1,6 +1,7 @@
 package de.samuel.gamevault.documention;
 
 import de.samuel.gamevault.dto.GameDTO;
+import de.samuel.gamevault.enums.Platform;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -49,5 +51,11 @@ public interface GameControllerDoc {
     @ApiResponse(responseCode = "204", description = "Game deletado com sucesso", content = @Content())
     @ApiResponse(responseCode = "404", description = "Game não encontrada", content = @Content())
     public ResponseEntity<Void> deleteGame(@PathVariable Long id);
+
+    @Operation(summary = "Busca games pela plataforma", description = "Metodo responsavel por buscar todos os games cadastrados no banco de dados pela plataforma",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponse(responseCode = "200", description = "Retorna todos os games cadastrados pela plataforma correspondente", content = @Content(array = @ArraySchema(schema = @Schema(implementation = GameDTO.class))))
+    @ApiResponse(responseCode = "404", description = "Não há nenhum jogo cadastrado nesta plataforma", content = @Content())
+    public ResponseEntity<List<GameDTO>> getByPlatform(@RequestParam List<Platform> platforms);
 
 }

@@ -1,9 +1,6 @@
 package de.samuel.gamevault.exception.handle;
 
-import de.samuel.gamevault.exception.GameNotFoundException;
-import de.samuel.gamevault.exception.LibraryNotFoundException;
-import de.samuel.gamevault.exception.UserNotFoundException;
-import de.samuel.gamevault.exception.UsernameOrPasswordInvalidException;
+import de.samuel.gamevault.exception.*;
 import de.samuel.gamevault.records.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -61,6 +58,17 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
+
+    @ExceptionHandler(PlatformNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFound(PlatformNotFoundException exception) {
+        ErrorResponse error = new ErrorResponse(
+                "PLATFORM_NOT_FOUND",
+                exception.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
 
     // Fallback para erros inesperados
     @ExceptionHandler(Exception.class)

@@ -3,6 +3,7 @@ package de.samuel.gamevault.service;
 import de.samuel.gamevault.dto.GameDTO;
 import de.samuel.gamevault.enums.Platform;
 import de.samuel.gamevault.exception.GameNotFoundException;
+import de.samuel.gamevault.exception.PlatformNotFoundException;
 import de.samuel.gamevault.mapper.GameMapper;
 import de.samuel.gamevault.model.GameModel;
 import de.samuel.gamevault.repository.GameRepository;
@@ -53,8 +54,13 @@ public class GameService {
     }
 
     public List<GameDTO> findByPlatform(List<Platform> platforms) {
-        return gameRepository.findByPlatformsIn(platforms)
-                .stream()
+        List<GameModel> games = gameRepository.findByPlatformsIn(platforms);
+
+        if (games.isEmpty()) {
+            throw new PlatformNotFoundException(platforms.get(0));
+        }
+
+        return games.stream()
                 .map(mapper::map)
                 .collect(Collectors.toList());
     }
