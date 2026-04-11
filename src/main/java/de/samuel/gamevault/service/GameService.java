@@ -1,6 +1,7 @@
 package de.samuel.gamevault.service;
 
 import de.samuel.gamevault.dto.GameDTO;
+import de.samuel.gamevault.enums.Platform;
 import de.samuel.gamevault.exception.GameNotFoundException;
 import de.samuel.gamevault.mapper.GameMapper;
 import de.samuel.gamevault.model.GameModel;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,5 +50,12 @@ public class GameService {
         GameModel game = gameRepository.findById(id)
                 .orElseThrow(() -> new GameNotFoundException(id));
         gameRepository.delete(game);
+    }
+
+    public List<GameDTO> findByPlatform(List<Platform> platforms) {
+        return gameRepository.findByPlatformsIn(platforms)
+                .stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
     }
 }

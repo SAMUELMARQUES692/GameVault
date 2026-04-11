@@ -2,6 +2,7 @@ package de.samuel.gamevault.controller;
 
 import de.samuel.gamevault.documention.GameControllerDoc;
 import de.samuel.gamevault.dto.GameDTO;
+import de.samuel.gamevault.enums.Platform;
 import de.samuel.gamevault.service.GameService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,5 +45,8 @@ public class GameController implements GameControllerDoc {
         return ResponseEntity.noContent().build();
     }
 
-
+    @GetMapping("/by-platform")
+    public ResponseEntity<List<GameDTO>> getByPlatform(@RequestParam List<Platform> platforms) {
+        return ResponseEntity.ok(service.findByPlatform(platforms));
+    }
 }
