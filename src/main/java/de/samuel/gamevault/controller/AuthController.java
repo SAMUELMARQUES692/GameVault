@@ -1,6 +1,7 @@
 package de.samuel.gamevault.controller;
 
 import de.samuel.gamevault.config.TokenService;
+import de.samuel.gamevault.documention.AuthControllerDoc;
 import de.samuel.gamevault.exception.UsernameOrPasswordInvalidException;
 import de.samuel.gamevault.model.UserModel;
 import de.samuel.gamevault.records.request.LoginRequest;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthControllerDoc {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;

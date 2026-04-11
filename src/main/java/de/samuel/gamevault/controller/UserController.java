@@ -1,5 +1,6 @@
 package de.samuel.gamevault.controller;
 
+import de.samuel.gamevault.documention.UserControllerDoc;
 import de.samuel.gamevault.dto.UserDTO;
 import de.samuel.gamevault.service.UserService;
 import jakarta.validation.Valid;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController implements UserControllerDoc {
 
     private final UserService service;
 

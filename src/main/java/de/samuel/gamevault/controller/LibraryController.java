@@ -1,5 +1,6 @@
 package de.samuel.gamevault.controller;
 
+import de.samuel.gamevault.documention.LibraryControllerDoc;
 import de.samuel.gamevault.dto.LibraryDTO;
 import de.samuel.gamevault.service.LibraryService;
 import jakarta.validation.Valid;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/libraries")
-public class LibraryController {
+public class LibraryController implements LibraryControllerDoc {
 
     private final LibraryService service;
 

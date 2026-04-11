@@ -1,5 +1,6 @@
 package de.samuel.gamevault.controller;
 
+import de.samuel.gamevault.documention.GameControllerDoc;
 import de.samuel.gamevault.dto.GameDTO;
 import de.samuel.gamevault.service.GameService;
 import jakarta.validation.Valid;
@@ -13,7 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/game")
 @RequiredArgsConstructor
-public class GameController {
+public class GameController implements GameControllerDoc {
 
     private final GameService service;
 
