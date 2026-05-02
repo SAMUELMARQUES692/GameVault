@@ -60,13 +60,17 @@ public class UserService {
         UserModel updatedUser = userMapper.map(userDTO);
         updatedUser.setId(id);
 
-        return userMapper.map(userRepository.save(updatedUser));
+        UserModel saved = userRepository.save(updatedUser);
+        userProducer.publishUpdate(saved);
+        return userMapper.map(saved);
     }
 
-    public void deleteUser(Long id) {
+    public UserDTO deleteUser(Long id) {
         UserModel user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
-        userRepository.delete(user);
-    }
 
+        userProducer.publishDelete(user);
+        userRepository.delete(user);
+        return userMapper.map(user);
+    }
 }

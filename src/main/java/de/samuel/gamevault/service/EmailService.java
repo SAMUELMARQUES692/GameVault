@@ -26,6 +26,9 @@ public class EmailService {
 
     @Transactional
     public void sendEmail(EmailModel emailModel) {
+        emailModel.setEmailFrom(emailFrom);
+        emailModel.setSentAt(LocalDateTime.now());
+
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(emailFrom);
@@ -34,14 +37,13 @@ public class EmailService {
             message.setText(emailModel.getBody());
             javaMailSender.send(message);
             emailModel.setStatusEmail(EmailStatus.SENT);
-            emailModel.setSentAt(LocalDateTime.now());
+
         } catch (Exception exception) {
             emailModel.setStatusEmail(EmailStatus.FAILED);
-            System.out.println("Erro ao enviar email: " + exception.getMessage());
+            log.error("Erro ao enviar email: {}", exception.getMessage());
         }
 
         emailRepository.save(emailModel);
     }
-
 
 }
