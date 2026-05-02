@@ -2,6 +2,7 @@ package de.samuel.gamevault.service;
 
 import de.samuel.gamevault.config.Rabbit.UserProducer;
 import de.samuel.gamevault.dto.UserDTO;
+import de.samuel.gamevault.exception.EmailDuplicadoException;
 import de.samuel.gamevault.exception.UserNotFoundException;
 import de.samuel.gamevault.mapper.UserMapper;
 import de.samuel.gamevault.model.UserModel;
@@ -25,6 +26,11 @@ public class UserService {
 
     @Transactional
     public UserDTO saveUsers(UserDTO userDTO) {
+
+        userRepository.findUserByEmail(userDTO.email())
+                .ifPresent(user -> {
+                    throw new EmailDuplicadoException(userDTO.email());
+                });
 
         String encodedPassword = passwordEncoder.encode(userDTO.password());
         UserModel user = userMapper.map(userDTO);
