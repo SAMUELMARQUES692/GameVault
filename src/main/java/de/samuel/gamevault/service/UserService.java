@@ -1,5 +1,6 @@
 package de.samuel.gamevault.service;
 
+import de.samuel.gamevault.config.Rabbit.UserProducer;
 import de.samuel.gamevault.dto.UserDTO;
 import de.samuel.gamevault.exception.UserNotFoundException;
 import de.samuel.gamevault.mapper.UserMapper;
@@ -8,6 +9,7 @@ import de.samuel.gamevault.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,15 +21,20 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final UserProducer userProducer;
 
+    @Transactional
     public UserDTO saveUsers(UserDTO userDTO) {
-        String encodedPassword = passwordEncoder.encode(userDTO.password());
 
+        String encodedPassword = passwordEncoder.encode(userDTO.password());
         UserModel user = userMapper.map(userDTO);
         user.setPassword(encodedPassword);
 
-        return userMapper.map(userRepository.save(user));
+        UserModel savedUser = userRepository.save(user);
+        userProducer.publishEvent(savedUser);
+        return userMapper.map(savedUser);
     }
+
 
     public List<UserDTO> getAll() {
         return userRepository.findAll().stream()
