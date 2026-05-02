@@ -1,6 +1,6 @@
 package de.samuel.gamevault.service;
 
-import de.samuel.gamevault.config.Rabbit.UserProducer;
+import de.samuel.gamevault.rabbit.UserProducer;
 import de.samuel.gamevault.dto.UserDTO;
 import de.samuel.gamevault.exception.EmailDuplicadoException;
 import de.samuel.gamevault.exception.UserNotFoundException;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

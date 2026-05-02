@@ -1,4 +1,4 @@
-package de.samuel.gamevault.config.Rabbit;
+package de.samuel.gamevault.rabbit;
 
 import de.samuel.gamevault.dto.EmailDTO;
 import de.samuel.gamevault.model.UserModel;

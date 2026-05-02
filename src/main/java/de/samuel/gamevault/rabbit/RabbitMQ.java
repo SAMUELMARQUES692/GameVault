@@ -1,4 +1,4 @@
-package de.samuel.gamevault.config;
+package de.samuel.gamevault.rabbit;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.JacksonJsonMessageConverter;
