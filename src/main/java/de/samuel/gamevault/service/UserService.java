@@ -53,6 +53,7 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    @Transactional
     public UserDTO updateUser(Long id, UserDTO userDTO) {
         userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
@@ -65,6 +66,7 @@ public class UserService {
         return userMapper.map(saved);
     }
 
+    @Transactional
     public UserDTO deleteUser(Long id) {
         UserModel user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
